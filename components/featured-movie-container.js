@@ -1,90 +1,56 @@
-import { useMemo } from "react";
-import MovieCard from "/";
+import { useEffect, useState } from "react";
+import MovieCard from "./movieCard"; // Make sure this path is correct
+import axios from 'axios';
 
-const FeaturedMovieContainer = ({
-  posterImage,
-  favorite,
-  uSA2016Current,
-  strangerThings,
-  prop,
-  prop1,
-  actionAdventureHorror,
-  posterImage1,
-  favorite1,
-  uSA2016Current1,
-  strangerThings1,
-  prop2,
-  prop3,
-  actionAdventureHorror1,
-  posterImage2,
-  favorite2,
-  uSA2016Current2,
-  strangerThings2,
-  prop4,
-  prop5,
-  actionAdventureHorror2,
-  posterImage3,
-  favorite3,
-  uSA2016Current3,
-  strangerThings3,
-  prop6,
-  prop7,
-  actionAdventureHorror3,
-  showTVSeries,
-  uSA2016Top,
-  showTVSeries1,
-}) => {
-  const movieListStyle = useMemo(() => {
-    return {
-      top: uSA2016Top,
+const fetchTopRatedMovies = async () => {
+  try {
+    const response = await axios.get('https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc', {
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMzOTlmNzY0NWUzZTI5OGM3ZDk2NjYwMmRmMjJlNSIsInN1YiI6IjY0ZmY1N2I3ZGI0ZWQ2MTAzNjNlN2I0ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.a5rFXnu9548fxjCagEpsamuWrM7iZdSidT7KDciyJkA',
+        'accept': 'application/json'
+      }
+    });
+    return response.data.results;
+  } catch (error) {
+    console.error('Failed to fetch top rated movies:', error);
+    // Handle the error according to your application's requirements
+  }
+};
+
+const FeaturedMovieContainer = () => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const topRatedMovies = await fetchTopRatedMovies();
+        setMovies(topRatedMovies.slice(0, 10)); 
+      } catch (error) {
+        console.error("Failed to fetch top rated movies:", error);
+      }
     };
-  }, [uSA2016Top]);
+
+    fetchMovies();
+  }, []);
 
   return (
-    <div
-      className="absolute top-[91px] left-[64px] flex flex-row items-start justify-start gap-[80px]"
-      style={movieListStyle}
-    >
-      <MovieCard
-        posterImage="/poster-image1@2x.png"
-        favorite="/favorite1.svg"
-        uSA2016Current="USA, 2016 - Current"
-        strangerThings="Stranger Things"
-        prop="86.0 / 100"
-        prop1="97%"
-        actionAdventureHorror="Action, Adventure, Horror"
-        showTVSeries
-      />
-      <MovieCard
-        posterImage="/poster-image2@2x.png"
-        favorite="/favorite1.svg"
-        uSA2016Current="USA, 2005"
-        strangerThings="Batman Begins"
-        prop="82.0 / 100"
-        prop1="70%"
-        actionAdventureHorror="Action, Adventure"
-        showTVSeries={false}
-      />
-      <MovieCard
-        posterImage="/poster-image3@2x.png"
-        favorite="/favorite1.svg"
-        uSA2016Current="USA, 2018"
-        strangerThings="Spider-Man : Into The Spider Verse"
-        prop="84.0 / 100"
-        prop1="87%"
-        actionAdventureHorror="Animation, Action, Adventure"
-        showTVSeries={false}
-      />
-      <MovieCard
-        posterImage="/poster-image4@2x.png"
-        favorite="/favorite1.svg"
-        uSA2016Current="USA, 2017"
-        strangerThings="Dunkirk"
-        prop="78.0 / 100"
-        prop1="94%"
-        actionAdventureHorror="Action, Drama, History"
-        showTVSeries={false}
-      />
+    <div className="absolute top-[750px] left-[40px]">
+      {[0, 1, 2].map(batch => (
+        <div key={batch} className="flex flex-row items-start justify-start gap-[80px] mb-4">
+          {movies.slice(batch * 4, (batch + 1) * 4).map(movie => (
+            <MovieCard className="w-64"
+              key={movie.id}
+              movie={movie}
+              posterImage={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              title={movie.title}
+              releaseDate={movie.release_date}
+              rating={movie.vote_average}
+              popularity={movie.popularity}
+              genres={movie.genre_ids} // You'll need to fetch the genre names based on these ids
+            />
+          ))}
+        </div>
+      ))}
     </div>
   );
 };

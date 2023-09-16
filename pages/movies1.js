@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import MovieBoxContainer1 from "../components/movie-box-container1";
 import ShowtimesContainer from "../components/showtimes-container";
 import DirectorCard from "../components/director-card";
@@ -5,68 +6,38 @@ import TopCastContainer from "../components/top-cast-container";
 import CardForm from "../components/card-form";
 import UpcomingActionAdventureContain from "../components/upcoming-action-adventure-contain";
 import FavouriteContainer from "../components/favourite-container";
+import VideoPlayer from "../components/videoPlayer";
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import MovieDetails from '../components/movie-details';
 
-const Movies1 = () => {
+
+
+const Movies1 = (selectedMovies) => {
+  const router = useRouter();
+  const { trailerUrl } = router.query;
+  const [selectMovies, setSelectedMovie] = useState(null);
+
+
   return (
-    <div className="relative bg-white w-full h-[982px] overflow-y-auto">
+    <div className="relative bg-white w-full h-[982px] ">
       <MovieBoxContainer1 />
-      <main className="absolute top-[0px] left-[263px] w-[1198px] h-[2075px] overflow-hidden text-left text-6xl text-gainsboro-100 font-poppins">
-        <div className="absolute top-[38px] left-[0px] w-[1198px] h-[2037px] overflow-hidden">
-          <div className="absolute top-[0px] left-[0px] w-[1198px] h-[449px]">
-            <img
-              className="absolute top-[0px] left-[0px] rounded-xl w-[1198px] h-[449px] object-cover"
-              alt=""
-              src="/rectangle-29@2x.png"
+      <main className="absolute top-[0px] left-[240px] w-[1098px] h-[2075px] overflow-hidden text-left text-6xl text-gainsboro-100 font-poppins">
+        <div className="absolute top-[38px] left-[0px] w-[1098px] h-[2037px] overflow-hidden">
+          <div className="absolute top-[0px] left-[0px] w-[1098px] h-[1049px]">
+            <VideoPlayer
+              className=" top-[0px] left-[0px] rounded-xl w-[1098px] h-[1049px] object-cover"
+              url={trailerUrl}
             />
-            <div className="absolute top-[132px] left-[521px] w-[168px] h-[157px]">
-              <div className="absolute top-[-1px] left-[28px] rounded-[50%] bg-gray1-200 shadow-[0px_2px_4px_rgba(0,_0,_0,_0.25)] [backdrop-filter:blur(4px)] box-border w-28 h-28 border-[2px] border-solid border-gainsboro-200" />
-              <img
-                className="absolute top-[26px] left-[53px] w-[62px] h-[62px] object-cover"
-                alt=""
-                src="/play1@2x.png"
-              />
-              <div className="absolute top-[119px] left-[0px] font-medium [text-shadow:0px_2px_4px_rgba(0,_0,_0,_0.25)]">
-                Watch Trailer
-              </div>
-            </div>
+
+           
           </div>
-          <div className="absolute top-[480px] left-[18px] w-[774px] h-[150px] text-mini text-firebrick">
-            <div className="absolute top-[0px] left-[0px] text-[23px] text-darkslategray-100">
-              <span className="font-medium">Top Gun: Maverick</span>
-              <span>•</span>
-              <span className="font-medium">2022</span>
-              <span>•</span>
-              <span className="font-medium">PG-13</span>
-              <b>•</b>
-              <span className="font-medium">2h 10m</span>
-            </div>
-            <div className="absolute top-[3px] left-[532px] rounded-mini box-border w-[84px] h-[30px] border-[1px] border-solid border-lavenderblush-100" />
-            <div className="absolute top-[3px] left-[627px] rounded-mini box-border w-[84px] h-[30px] border-[1px] border-solid border-lavenderblush-100" />
-            <div className="absolute top-[6px] left-[549px] font-medium">
-              Action
-            </div>
-            <div className="absolute top-[6px] left-[642px] font-medium">
-              Drama
-            </div>
-            <div className="absolute top-[60px] left-[0px] text-xl text-darkslategray-200">
-              <p className="m-0">
-                After thirty years, Maverick is still pushing the envelope as a
-                top naval aviator,
-              </p>
-              <p className="m-0">
-                but must confront ghosts of his past when he leads TOP GUN's
-                elite graduates
-              </p>
-              <p className="m-0">
-                on a mission that demands the ultimate sacrifice from those
-                chosen to fly it.
-              </p>
-            </div>
-          </div>
+          <MovieDetails movie={selectMovies} />
+
           <ShowtimesContainer />
           <DirectorCard />
-          <div className="absolute top-[848px] left-[12px] w-[785.06px] h-[772px] text-xl">
-            <div className="absolute top-[0px] left-[0px] w-[785px] h-[55px] text-white">
+          <div className="absolute top-[848px] left-[12px] w-[685.06px] h-[772px] text-xl">
+            <div className="absolute top-[0px] left-[0px] w-[685px] h-[55px] text-white">
               <div className="absolute top-[0px] left-[0px] rounded-3xs bg-gray1-300 box-border w-[785px] h-[55px] border-[1px] border-solid border-silver" />
               <div className="absolute top-[0px] left-[0px] rounded-3xs bg-rose-700 w-[253px] h-[55px]" />
               <div className="absolute top-[13px] left-[20px] font-medium">

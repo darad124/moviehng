@@ -1,4 +1,6 @@
 import Logo from "./logo";
+import Link from 'next/link';
+
 
 const MovieBoxContainer1 = () => {
   return (
@@ -14,6 +16,7 @@ const MovieBoxContainer1 = () => {
         logoBottom="89.61%"
         movieBoxColor="#333"
       />
+      <Link href="/">
       <div className="absolute top-[207px] left-[42px] w-[101px] h-[30px]">
         <div className="absolute h-full w-[60.4%] top-[0%] left-[39.6%] font-semibold inline-block">
           Home
@@ -24,6 +27,7 @@ const MovieBoxContainer1 = () => {
           src="/home@2x.png"
         />
       </div>
+      </Link>
       <div className="absolute top-[284px] left-[0px] w-[226px] h-[86px] text-rose-700">
         <div className="absolute h-full w-full top-[0%] right-[0%] bottom-[0%] left-[0%] bg-crimson-300" />
         <img

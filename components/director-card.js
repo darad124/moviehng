@@ -14,7 +14,7 @@ const DirectorCard = () => {
       <img
         className="absolute top-[121.5px] left-[-0.5px] w-[786.06px] h-px"
         alt=""
-        src="/vector-8.svg"
+      
       />
       <img
         className="absolute top-[182.5px] left-[-0.5px] w-[786.06px] h-px"
